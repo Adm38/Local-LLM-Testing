@@ -2,6 +2,25 @@
 import os
 import openai
 
+system_prompt = ""
+user_prompt = ""
+
+def file_to_string(file_name):
+    output_str = ""
+    with open(file_name, "r") as f:
+        
+        _lines = f.readlines()
+        for line in _lines:
+            # if not the first one add a newline
+            if len(output_str) > 0:
+                output_str += "\n"
+            output_str += line
+
+    return output_str
+
+system_prompt = file_to_string("system-prompt.txt")
+user_prompt = file_to_string("user-prompt.txt")
+
 client = openai.OpenAI(
     base_url = "http://localhost:1234/v1",
     api_key = "hello there"
@@ -10,12 +29,49 @@ client = openai.OpenAI(
 #openai.api_base = "http://localhost:1234/v1" # point to the local server
 #openai.api_key = "" # no need for an API key
 
-completion = client.chat.completions.create(
-    model="gpt-4",
-    messages=[
-        {"role": "system", "content": "Always answer in rhymes."},
-        {"role": "user", "content": "Introduce yourself."}
-    ],
-)
+
+
+message_log = [
+    {"role": "system", "content": system_prompt}
+]
+
+def create_player_msg(input_string):
+    message = {
+        "role": "user",
+        "content": input_string
+    }
+    return message
+
+def create_ai_msg(completion_obj):
+    response_content = completion.choices[0].message.content
+    message = {
+        "role": "assistant",
+        "content": response_content
+    }
+
+    return message
+
+while True:
+    print()
+    player_input = input("User: ")
+    player_input = player_input.strip()
+
+    message_log.append(create_player_msg(player_input))
+
+    #process player input
+    completion = client.chat.completions.create(
+        model="gpt-4",
+        messages=message_log
+    )
+
+    #log response
+    message_log.append(create_ai_msg(completion_obj=completion))
+    print()
+    print("AI: ", end="")
+    print(completion.choices[0].message.content)
+
+
+
+print(completion.id)
 print(completion.choices[0].message.content)
 print(completion.choices[0].message)
