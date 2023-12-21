@@ -1,0 +1,1 @@
+This folder is going to hold my source code. I want to use the layout from "project_structure.md" to make sure I can iterate on my ideas here.
