@@ -18,8 +18,8 @@ def file_to_string(file_name):
 
     return output_str
 
-#system_prompt = file_to_string("system-prompt.txt")
-system_prompt = file_to_string("tool_calling_sys_prompt.txt") 
+system_prompt = file_to_string("system-prompt.txt")
+#system_prompt = file_to_string("tool_calling_sys_prompt.txt") 
 user_prompt = file_to_string("user-prompt.txt")
 
 client = openai.OpenAI(
