@@ -5,7 +5,7 @@ from langchain.output_parsers import PydanticOutputParser
 from models import FunctionCaller
 from functions_config import whitelisted_functions
 
-if __name__ == "__main__":
+def setup_chain():
     # TODO: Rename my parsers from 'models' to 'langchain_parsers'.
     # Then, rename 'llm_client' to 'models'
     
@@ -17,7 +17,10 @@ if __name__ == "__main__":
 
     parser_for_func_call = PydanticOutputParser(pydantic_object=FunctionCaller)
 
-    chain = prompt | model | parser_for_func_call
+    return prompt | model | parser_for_func_call
+
+if __name__ == "__main__":
+    chain = setup_chain()
 
     while True:
         query =  input("User: ").strip()
