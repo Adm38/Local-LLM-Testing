@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     while True:
         query =  input("User: ").strip()
-        function_to_call = chain.invoke({"query":query, "whitelisted_functions": whitelisted_functions})
+        function_to_call: FunctionCaller = chain.invoke({"query":query, "whitelisted_functions": whitelisted_functions})
         result = function_to_call.invoke()
 
         print(result)

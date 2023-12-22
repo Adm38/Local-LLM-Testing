@@ -1,4 +1,4 @@
-from functions import print_to_console, add_two_numbers, hello_world
+from functions import print_to_console, add_two_numbers, hello_world, retrieve_inventory
 
 whitelisted_functions = {
     "hello_world": {
@@ -36,6 +36,9 @@ whitelisted_functions = {
             }
         ]
     },
-    "scrape_webpage": None,
-    "walk_to_store": None
+        "retrieve_inventory": {
+        "func": retrieve_inventory,
+        "description": "Retrieve the current inventory",
+        "properties": []  # No properties for this function
+    },
 }
