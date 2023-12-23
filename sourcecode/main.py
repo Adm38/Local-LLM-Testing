@@ -16,6 +16,7 @@ def setup_chain():
     prompt = create_function_prompt()
 
     parser_for_func_call = PydanticOutputParser(pydantic_object=FunctionCaller)
+    print(f"full prompt: {prompt}")
 
     return prompt | model | parser_for_func_call
 

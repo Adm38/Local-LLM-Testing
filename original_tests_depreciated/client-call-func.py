@@ -48,8 +48,8 @@ def create_ai_msg(completion_obj):
     return message
 
 #system_prompt = file_to_string("system-prompt.txt")
-system_prompt = file_to_string("tool_calling_sys_prompt.txt") 
-user_prompt = file_to_string("user-prompt.txt")
+system_prompt = file_to_string("./tool_calling_sys_prompt.txt") 
+user_prompt = file_to_string("./user-prompt.txt")
 
 client = openai.OpenAI(
     base_url = "http://localhost:1234/v1",
