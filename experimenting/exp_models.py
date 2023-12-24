@@ -1,12 +1,23 @@
 from typing import List
 from langchain_core.pydantic_v1 import BaseModel, Field, validator
 
+from .exp_functions import create_fake_whitelist
+
 class StepInSequence(BaseModel):
-    function_name: str = Field(description="the name of a function that would complete the next step of the user's query. should follow best practice naming conventions.")
+    function_name: str = Field(description="The name of a function that would complete the next step of the user's query.")
+
+    def invoke(self):
+        whitelist = create_fake_whitelist()
+        print(f"Invoking function '{self.function_name}'")
+        whitelist[self.function_name]()
+    
+    def __str__(self) -> str:
+        return f"{self.function_name}"
+
 
 
 class SequenceCaller(BaseModel):
-    sequence: List[StepInSequence] = Field(description="list of StepInSequence objects in sequence that will fulfill the user's request. \
+    sequence: List[StepInSequence] = Field(description="List of StepInSequence objects in sequence that will fulfill the user's request. \
                                            use your best judgement when ordering the sequence. the sequence should be between 2-5 StepInSequence long.")
 
     @validator("sequence")
@@ -23,5 +34,6 @@ class SequenceCaller(BaseModel):
     def invoke(self):
         for step in self.sequence:
             print(f"Running {step.function_name}")
+            step.invoke()
 
         print("Sequence finished!")

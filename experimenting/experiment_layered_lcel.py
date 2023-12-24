@@ -5,8 +5,10 @@ from source_code.llm_client import get_client
 from source_code.llm_client import get_client
 from langchain.output_parsers import PydanticOutputParser
 
-from experimental_models import StepInSequence, SequenceCaller
-from experimental_prompt_templates import create_sequence_caller_prompt
+from experimenting.exp_models import StepInSequence, SequenceCaller
+from .experimental_prompt_templates import create_sequence_caller_prompt
+
+from .exp_functions import create_fake_whitelist
 
 def setup_sequence():
     # TODO: Rename my parsers from 'models' to 'langchain_parsers'.
@@ -26,13 +28,16 @@ def setup_sequence():
 def run_experiment():
     sequence = setup_sequence()
 
-    while True:
-        query =  input("User: ").strip()
-        sequence: SequenceCaller  = chain.invoke({"query":query})
-        result = sequence.invoke()
+    query = "how would you respond to a user who wants to buy an item from you, but doesn't know what they want?"
+    #query =  input("User: ").strip()
+    print("STARTING EXPERIMENT: LAYERED_LCEL")
+    sequence_caller: SequenceCaller  = sequence.invoke(input={"query":query, "whitelisted_functions": create_fake_whitelist()})
+    print(f"Sequence created! Sequence consists of: {sequence_caller.sequence}")
+    result = sequence_caller.invoke()
 
-        print(result)
-        print()
+    print(result)
+    print()
+    print("EXPERIMENT EXITING.")
 
 if __name__ == "__main__":
     run_experiment()
