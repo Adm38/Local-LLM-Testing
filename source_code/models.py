@@ -1,4 +1,4 @@
-# File contains my Pydantic models
+""" File contains my Pydantic models """
 import inspect
 import os
 from dotenv import load_dotenv
